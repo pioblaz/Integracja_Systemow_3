@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<laptops moddate="Tue Mar 15 12:17:32 CET 2022">
+<laptops moddate="Tue Mar 15 19:11:55 CET 2022">
     <laptop id="1">
         <manufacturer>Dell</manufacturer>
         <screen touch="nie">
             <size>12"</size>
-            <resolution>Brak informacji</resolution>
+            <resolution>1920x1080</resolution>
             <type>matowa</type>
         </screen>
         <processor>

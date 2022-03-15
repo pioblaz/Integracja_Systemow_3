@@ -2,11 +2,18 @@ package com.company;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -14,6 +21,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 public class Main extends JFrame {
@@ -290,7 +299,63 @@ public class Main extends JFrame {
         button_import_xml.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    File file = new File("laptopy.xml");
+                    DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                    Document document = documentBuilder.parse(file);
+                    document.getDocumentElement().normalize();
+                    System.out.println("Root element: " + document.getDocumentElement().getNodeName());
+                    NodeList nodeList = document.getElementsByTagName("laptop");
 
+                    int j = 0;
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        Node node = nodeList.item(i);
+                        System.out.println("\nLaptop id: "+ node.getAttributes().getNamedItem("id").getNodeValue());
+
+                        j = 0;
+                        if(node.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element = (Element) node;
+
+                            dane[i][j] = element.getElementsByTagName("manufacturer").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("size").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("resolution").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("type").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("screen").item(0).getAttributes().getNamedItem("touch").getNodeValue();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("name").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("physical_cores").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("clock_speed").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("ram").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("storage").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("disc").item(0).getAttributes().getNamedItem("type").getNodeValue();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("name").item(1).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("memory").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("os").item(0).getTextContent();
+                            j++;
+                            dane[i][j] = element.getElementsByTagName("disc_reader").item(0).getTextContent();
+                        }
+                    }
+                } catch (ParserConfigurationException parserConfigurationException) {
+                    parserConfigurationException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (SAXException saxException) {
+                    saxException.printStackTrace();
+                }
+                okienko.repaint();
             }
         });
 
